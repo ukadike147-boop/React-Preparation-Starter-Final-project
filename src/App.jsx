@@ -1,4 +1,5 @@
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
 
 
 async function getMovieData(SearchTerm) {
@@ -6,78 +7,83 @@ async function getMovieData(SearchTerm) {
     const jsonMovie = await movies.json();
     return jsonMovie;
 }
+ 
+function App() {
+  useEffect(() => {
+    const searchInput = document.getElementById("searchInput");
+    const searchBtn = document.getElementById("searchBtn");
+    const movielist = document.querySelector(".movies--container");
+    const sortSelect = document.getElementById("sortSelect");
+    const burgerBtn = document.getElementById("burgerBtn");
+    const navLinks = document.getElementById("navLinks");
 
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-const movielist = document.querySelector(".movies--container");
-const sortSelect = document.getElementById("sortSelect");
+    let movies = [];
 
-let movies = [];
+    function sortMovies(movieList) {
+      const sortedMovies = [...movieList];
 
-function sortMovies(movieList) {
-    const sortedMovies = [...movieList];
-
-    if (sortSelect.value === "year-new") {
+      if (sortSelect.value === "year-new") {
         sortedMovies.sort((a, b) => Number(b.Year) - Number(a.Year));
-    }
-    if (sortSelect.value === "year-old") {
+      } else if (sortSelect.value === "year-old") {
         sortedMovies.sort((a, b) => Number(a.Year) - Number(b.Year));
-    }
-    if (sortSelect.value === "title") {
+      } else if (sortSelect.value === "title") {
         sortedMovies.sort((a, b) => a.Title.localeCompare(b.Title));
+      }
+
+      return sortedMovies;
     }
 
-    return sortedMovies;
-}
+    function cardFunc(img, title, year) {
+      return `
+        <div class="card">
+          <img src="${img}" alt="${title}" class="movie-img">
+          <div class="content">
+            <p>Title: ${title}</p>
+            <p>Year: ${year}</p>
+          </div>
+        </div>
+      `;
+    }
 
-function showMovies() {
-    movielist.innerHTML = sortMovies(movies)
-        .map(movie => cardFunc(movie.Poster, movie.Title, movie.Year))
+    function showMovies() {
+      movielist.innerHTML = sortMovies(movies)
+        .map((movie) => cardFunc(movie.Poster, movie.Title, movie.Year))
         .join("");
-}
+    }
 
-searchBtn.addEventListener("click", async function () {
-    const SearchTerm = searchInput.value.trim();
+    async function handleSearch() {
+      const SearchTerm = searchInput.value.trim();
 
-    if (SearchTerm === "") {
+      if (SearchTerm === "") {
         movielist.innerHTML = "<p>Please enter a movie title.</p>";
         return;
-    }
+      }
 
-    const data = await getMovieData(SearchTerm);
+      const data = await getMovieData(SearchTerm);
 
-    if (!data.Search) {
+      if (!data.Search) {
         movielist.innerHTML = "<p>No movies found.</p>";
         return;
+      }
+
+      movies = data.Search;
+      showMovies();
     }
 
-    movies = data.Search;
-    showMovies();
-});
+    function handleBurger() {
+      navLinks.classList.toggle("active");
+    }
 
-sortSelect.addEventListener("change", showMovies);
+    searchBtn.addEventListener("click", handleSearch);
+    sortSelect.addEventListener("change", showMovies);
+    burgerBtn.addEventListener("click", handleBurger);
 
-function cardFunc(img, title, year) {
-    return `
-        <div class="card">
-            <img src="${img}" alt="${title}" class="movie-img">
-            <div class="content">
-                <p>Title: ${title}</p>
-                <p>Year: ${year}</p>
-            </div>
-        </div>
-    `;
-}
-
-const burgerBtn = document.getElementById("burgerBtn");
-const navLinks = document.getElementById("navLinks");
-
-burgerBtn.addEventListener("click", function () {
-    navLinks.classList.toggle("active");
-});
-
-
-function App() {
+    return () => {
+      searchBtn.removeEventListener("click", handleSearch);
+      sortSelect.removeEventListener("change", showMovies);
+      burgerBtn.removeEventListener("click", handleBurger);
+    };
+  }, []);
   return (
     <>
       <h1>Movies house</h1>
@@ -111,7 +117,6 @@ function App() {
         <p>&copy; 2026 Movies House. Movie data provided by OMDb API.</p>
       </footer>
 
-      <script src="app.js"></script>
     </>
   )
 }
