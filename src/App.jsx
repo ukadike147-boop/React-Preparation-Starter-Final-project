@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
+import { useNavigate } from "react-router-dom";
 
 
 async function getMovieData(SearchTerm) {
@@ -9,6 +10,7 @@ async function getMovieData(SearchTerm) {
 }
  
 function App() {
+  const navigate = useNavigate();
   useEffect(() => {
     const searchInput = document.getElementById("searchInput");
     const searchBtn = document.getElementById("searchBtn");
@@ -33,23 +35,29 @@ function App() {
       return sortedMovies;
     }
 
-    function cardFunc(img, title, year) {
-      return `
-        <div class="card">
-          <img src="${img}" alt="${title}" class="movie-img">
-          <div class="content">
-            <p>Title: ${title}</p>
-            <p>Year: ${year}</p>
-          </div>
-        </div>
-      `;
-    }
-
-    function showMovies() {
-      movielist.innerHTML = sortMovies(movies)
-        .map((movie) => cardFunc(movie.Poster, movie.Title, movie.Year))
-        .join("");
-    }
+   function cardFunc(img, title, year, imdbID) {
+  return `
+    <div class="card" data-imdbid="${imdbID}">
+      <img src="${img}" alt="${title}" class="movie-img">
+      <div class="content">
+        <p>Title: ${title}</p>
+        <p>Year: ${year}</p>
+      </div>
+    </div>
+  `;
+}
+function showMovies() {
+  movielist.innerHTML = sortMovies(movies)
+    .map((movie) =>
+      cardFunc(
+        movie.Poster,
+        movie.Title,
+        movie.Year,
+        movie.imdbID
+      )
+    )
+    .join("");
+}
 
     async function handleSearch() {
       const SearchTerm = searchInput.value.trim();
@@ -71,19 +79,34 @@ function App() {
     }
 
     function handleBurger() {
-      navLinks.classList.toggle("active");
-    }
+  navLinks.classList.toggle("active");
+}
+function handleMovieClick(event) {
+  const card = event.target.closest(".card");
+
+  if (!card) return;
+
+  navigate(`/movie/${card.dataset.imdbid}`);
+}
+
+
+searchBtn.addEventListener("click", handleSearch);
+sortSelect.addEventListener("change", showMovies);
+burgerBtn.addEventListener("click", handleBurger);
+movielist.addEventListener("click", handleMovieClick);
 
     searchBtn.addEventListener("click", handleSearch);
     sortSelect.addEventListener("change", showMovies);
     burgerBtn.addEventListener("click", handleBurger);
+    movielist.addEventListener("click", handleMovieClick);
 
     return () => {
       searchBtn.removeEventListener("click", handleSearch);
       sortSelect.removeEventListener("change", showMovies);
       burgerBtn.removeEventListener("click", handleBurger);
+      movielist.removeEventListener("click", handleMovieClick);
     };
-  }, []);
+  }, [navigate]);
   return (
     <>
       <h1>Movies house</h1>
