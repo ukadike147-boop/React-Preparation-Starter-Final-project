@@ -86,10 +86,10 @@ function App() {
         <button class="burger" id="burgerBtn">=
         </button>
         <ul class="nav-links" id="navLinks">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><button>Home</button></li>
+          <li><button>Movies</button></li>
+          <li><button>About</button></li>
+          <li><button>Contact</button></li>
         </ul>
       </nav>
       <main>
