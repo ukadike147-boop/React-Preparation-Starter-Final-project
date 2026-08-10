@@ -75,3 +75,45 @@ const navLinks = document.getElementById("navLinks");
 burgerBtn.addEventListener("click", function () {
     navLinks.classList.toggle("active");
 });
+
+
+function App() {
+  return (
+    <>
+      <h1>Movies house</h1>
+      <nav class="navbar">
+        <div class="logo">My Website</div>
+        <button class="burger" id="burgerBtn">=
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Movies</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+      <main>
+        <input id="searchInput" placeholder="Search movies" />
+        <button id="searchBtn">Search</button>
+        <div class="movies--container">
+          <div class="cards">
+          </div>
+        </div>
+
+      </main>
+      <select id="sortSelect">
+        <option value="">Sort by</option>
+        <option value="year-new">Newest first</option>
+        <option value="year-old">Oldest first</option>
+        <option value="title">Title A-Z</option>
+      </select>
+      <footer>
+        <p>&copy; 2026 Movies House. Movie data provided by OMDb API.</p>
+      </footer>
+
+      <script src="app.js"></script>
+    </>
+  )
+}
+
+export default App;
