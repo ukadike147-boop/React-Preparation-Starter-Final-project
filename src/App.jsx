@@ -95,11 +95,6 @@ sortSelect.addEventListener("change", showMovies);
 burgerBtn.addEventListener("click", handleBurger);
 movielist.addEventListener("click", handleMovieClick);
 
-    searchBtn.addEventListener("click", handleSearch);
-    sortSelect.addEventListener("change", showMovies);
-    burgerBtn.addEventListener("click", handleBurger);
-    movielist.addEventListener("click", handleMovieClick);
-
     return () => {
       searchBtn.removeEventListener("click", handleSearch);
       sortSelect.removeEventListener("change", showMovies);
