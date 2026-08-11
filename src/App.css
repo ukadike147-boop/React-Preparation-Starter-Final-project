@@ -125,3 +125,112 @@ footer {
 .content {
     padding: 10px;
 }
+
+body {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+h1 {
+  padding: 24px 16px;
+  text-align: center;
+}
+
+main:not(.movie-details) {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+#searchInput {
+  width: min(70%, 420px);
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px 0 0 8px;
+  font-size: 16px;
+}
+
+#searchBtn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  background-color: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#sortSelect {
+  display: block;
+  margin: 24px auto;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+.nav-links button {
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.movies--container {
+  justify-content: center;
+}
+
+.card {
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+}
+
+.content p {
+  margin: 6px 0;
+}
+
+.movie-details {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 32px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+}
+
+.movie-details img {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto;
+  border-radius: 12px;
+}
+
+.movie-details p {
+  margin: 12px 0;
+  line-height: 1.6;
+}
+
+.movie-details a {
+  color: #2563eb;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .movie-details {
+    margin: 20px 12px;
+    padding: 20px;
+  }
+
+  .card {
+    width: min(100%, 280px);
+  }
+}
